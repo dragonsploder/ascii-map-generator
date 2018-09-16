@@ -16,13 +16,13 @@ The variables on lines 39-56 are:
 
 shapes: the average sizes of the islands used (shapes1 or shapes2)
 
-l: number of islands added to the map (these can overlap)
+	l: number of islands added to the map (these can overlap)
 
-c: number of times the cutter function will run (curves sharp edges)
+	c: number of times the cutter function will run (curves sharp edges)
 
-a: length
+	a: length
 
-b: width
+	b: width
 
-Note if you make a smaller then 10 and b smaller then 30, you may create an infinite loop
+Note if you make (a) smaller then 10 and (b) smaller then 30, you may create an infinite loop
 
