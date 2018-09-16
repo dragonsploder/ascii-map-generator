@@ -14,7 +14,7 @@ Large will create a 49x209 map
 
 The variables on lines 39-56 are:
 
-shapes: the average sizes of the islands used (shapes1 or shapes2)
+	shapes: the average sizes of the islands used (shapes1 or shapes2)
 
 	l: number of islands added to the map (these can overlap)
 
