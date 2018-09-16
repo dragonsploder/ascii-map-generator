@@ -1,6 +1,6 @@
 ascii map generator
 
-![](AMG-medium-example.png) 
+![picture](AMG-medium-example.png) 
 
 When you start the program, you will see:
 	Small(1), Medium(2) or Large(3)
