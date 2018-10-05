@@ -49,13 +49,15 @@ presets = {
     "7 - Blob" : {"Set": 7, "a": 36, "b": 100, "shapes": shapes5, "c": 20, "l": 3, "p": "F"},
 }
 
+stuff = ["*", "@", "!", ".", "+", "%", "&", "$", "#"]
+
+PIL = []
+
 # Function that creates the basic map, defines stuff like size, legend, positions on left/right side, ect
 def Start(s):
     global MAP
     global Legend 
     global shapes
-    global shapes1
-    global shapes2
     global presets
     global l
     global a
@@ -66,7 +68,6 @@ def Start(s):
     global RS
     global p
     MAP = {}
-    Name = Namer()
     if s == "1":
         shapes = shapes1
         l = 7
@@ -104,19 +105,6 @@ def Start(s):
     MAP = {}
     for x in range(A):
         MAP[x] = "~"
-    Legend = {
-        0: " ------------------",
-        1: " |     " + Name + "     |",
-        2: " ------------------",
-        3: " | * = Lake       |",
-        4: " | @ = A Hero     |",
-        5: " | ! = Battle     |",
-        6: " | . = Mountain   |",
-        7: " | + = Town       |",
-        8: " | % = City       |",
-        9: " | & = Dragon     |"
-    }
-    Legend[a - 1] = " ------------------"
     RS = [b]
     LS = [0]
     i = 0
@@ -132,11 +120,19 @@ def Start(s):
         RS.append(y)
         i += 1
 
-# Function that names the map
+# Functions that name stuff
 def Namer():
     FP = random.choice(["Str","Tra","Kle","Olc", "Mat", "Wir", "Sle", "Pad", "Lat"])
     SP = random.choice(["ait","cre","zat","tor", "lin", "dly", "waz", "ken", "mon"])
     return FP + SP
+
+def Hnamer():
+    FP = random.choice(["Mikker","","Wimmly","Jarmit", "FiFyFo", "Peeter", "Nipnoe", "Padfot", "??????"])
+    SP = random.choice(["Bold  |","Stong |","Fast  |","Large |", "Small |", "Fat   |", "Stuped|", "Smart |", "Fine  |"])
+    return FP + " the " + SP
+
+def Dnamer():
+    return random.choice(["Scar             |","Kainto           |","Flea             |", "Botron           |", "Frot             |", "Clotenomen       |", "Fimotrin         |", "Death            |"])
 
 # Function that prints the map to the console
 def PrintM():
@@ -155,7 +151,7 @@ def PrintM():
         try:
             print(Legend[i])
         except:
-            print(" |                |")
+            print(" |                      |")
         x = 1
         i += 1
 
@@ -353,12 +349,54 @@ def Clear():
 # Function that adds random stuff to the empty parts of the map
 def AddStuff():
     global MAP
+    global PIL
     global p
     if p == "T":
         for i in MAP:
             if MAP[i] == " ":
                 if random.randint(0, 25) == 1:
-                    MAP[i] = random.choice(["*", "@", "!", ".", "+", "%", "&"])
+                    MAP[i] = random.choice(stuff)
+                    if MAP[i] not in PIL:
+                        PIL.append(MAP[i])
+                    if MAP[i] == "@" or MAP[i] == "&" or MAP[i] == "+" or MAP[i] == "%" or MAP[i] == "#":
+                        stuff.remove(MAP[i])
+
+# Function that creats the Legend
+def LegendC():
+    global PIL
+    global Legend
+    global MAP
+    global b
+    Name = Namer()
+    Hname = Hnamer()
+    Dname = Dnamer()
+    Meaning = {
+    "*": "Lake             |",
+    "@": Hname,
+    "!": "Battle           |",
+    ".": "Mountain         |",
+    "+": "Mintar           |",
+    "%": "Thraf            |",
+    "&": Dname,
+    "#": "Impom            |",
+    "$": "Gold             |"
+    }
+    Legend = {
+        0: " +----------------------+",
+        1: " |        " + Name + "        |",
+        2: " +----------------------+"
+    }
+    n = 4
+    for i in PIL:
+        Legend[n] = " | " + i + " = " + Meaning[i]
+        n += 1
+    Legend[a - 1] = " +----------------------+"
+    MAP[b + 2] = "N"
+    MAP[b*2 + 1] = "W"
+    MAP[b*2 + 2] = "+"
+    MAP[b*2 + 3] = "E"
+    MAP[b*3 + 2] = "S"
+        
 
 # Main loop
 while True:
@@ -373,5 +411,6 @@ while True:
     Outline()
     Clear()
     AddStuff()
+    LegendC()
     PrintM()
     print("")
