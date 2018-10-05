@@ -3,6 +3,12 @@
 import random
 
 # - Lists of rectangles
+shapes0 = {
+    1:{"x": 1, "y": 1},
+    2:{"x": 1, "y": 2},
+    3:{"x": 2, "y": 1}
+}
+
 shapes1 = {
     1:{"x": 10, "y": 10},
     2:{"x": 15, "y": 8},
@@ -18,14 +24,40 @@ shapes2 = {
     3:{"x": 25, "y": 5}
 }
 
+shapes3 = {
+    1:{"x": 10, "y": 50},
+    2:{"x": 15, "y": 75},
+    3:{"x": 5, "y": 100}
+}
+
+shapes4 = {
+    1:{"x": 7, "y": 2},
+    2:{"x": 6, "y": 3},
+    3:{"x": 5, "y": 4}
+}
+
+shapes5 = {
+    1:{"x": 70, "y": 30}
+}
+
+presets = {
+    "1 - Pocket sized" : {"Set": 1, "a": 15, "b": 25, "shapes": shapes1, "c": 2, "l": 5, "p": "T"},
+    "2 - Long" : {"Set": 2, "a": 500, "b": 100, "shapes": shapes3, "c": 3, "l": 100, "p": "T"},
+    "3 - Mess" : {"Set": 3, "a": 36, "b": 100, "shapes": shapes0, "c": 0, "l": 1000, "p": "F"},
+    "4 - Box" : {"Set": 4, "a": 36, "b": 100, "shapes": shapes2, "c": 0, "l": 20, "p": "T"},
+    "5 - Islands" : {"Set": 5, "a": 25, "b": 75, "shapes": shapes4, "c": 0, "l": 25, "p": "T"},
+    "6 - Waterland" : {"Set": 6, "a": 20, "b": 50, "shapes": shapes0, "c": 1, "l": 1500, "p": "F"},
+    "7 - Blob" : {"Set": 7, "a": 36, "b": 100, "shapes": shapes5, "c": 20, "l": 3, "p": "F"},
+}
+
 # Function that creates the basic map, defines stuff like size, legend, positions on left/right side, ect
 def Start(s):
-    global Name
     global MAP
     global Legend 
     global shapes
     global shapes1
     global shapes2
+    global presets
     global l
     global a
     global b
@@ -33,6 +65,7 @@ def Start(s):
     global c
     global LS 
     global RS
+    global p
     MAP = {}
     Name = Namer()
     if s == "1":
@@ -41,18 +74,33 @@ def Start(s):
         c = 2
         a = 18
         b = 40
+        p = "T"
     elif s == "2":
         shapes = shapes2
         l = 15
         c = 3
         a = 36
         b = 100
-    else:
+        p = "T"
+    elif s == "3":
         shapes = shapes2
         l = 50
         c = 4
         a = 48
         b = 191
+        p = "T"
+    else:
+        for i in presets:
+            print(i)
+        cmd = int(input(">"))
+        for i in presets:
+            if presets[i]["Set"] == cmd:
+                shapes = presets[i]["shapes"]
+                l = presets[i]["l"]
+                c = presets[i]["c"]
+                a = presets[i]["a"]
+                b = presets[i]["b"]
+                p = presets[i]["p"]
     A = a*b
     MAP = {}
     for x in range(A):
@@ -67,7 +115,7 @@ def Start(s):
         6: " | . = Mountain   |",
         7: " | + = Town       |",
         8: " | % = City       |",
-        9: " | & = Dragon     |",
+        9: " | & = Dragon     |"
     }
     Legend[a - 1] = " ------------------"
     RS = [b]
@@ -87,7 +135,6 @@ def Start(s):
 
 # Function that names the map
 def Namer():
-    global Name
     FP = random.choice(["Str","Tra","Kle","Olc", "Mat", "Wir", "Sle", "Pad", "Lat"])
     SP = random.choice(["ait","cre","zat","tor", "lin", "dly", "waz", "ken", "mon"])
     return FP + SP
@@ -98,7 +145,6 @@ def PrintM():
     global b
     global MAP
     global Legend
-    global Name
     c = 0
     x = 0
     i = 0
@@ -175,7 +221,7 @@ def Curve():
                 try:
                     a = MAP[x]
                 except:
-                    a = MAP[i]
+                    a = "~"
                 if a == "~":
                     Sides += 1
                 # - U
@@ -184,7 +230,7 @@ def Curve():
                 try:
                     a = MAP[x]
                 except:
-                    a = MAP[i]
+                    a = "~"
                 if a == "~":
                     Sides += 1
                 # - D
@@ -196,7 +242,7 @@ def Curve():
                     try:
                         a = MAP[x]
                     except:
-                        a = MAP[i]
+                        a = "~"
                     if a == "~":
                         Sides += 1
                 # - L
@@ -208,7 +254,7 @@ def Curve():
                     try:
                         a = MAP[x]
                     except:
-                        a = MAP[i]
+                        a = "~"
                     if a == "~":
                         Sides += 1
                 # - R
@@ -308,14 +354,17 @@ def Clear():
 # Function that adds random stuff to the empty parts of the map
 def AddStuff():
     global MAP
-    for i in MAP:
-        if MAP[i] == " ":
-            if random.randint(0, 25) == 1:
-                MAP[i] = random.choice(["*", "@", "!", ".", "+", "%", "&"])
+    global p
+    if p == "T":
+        for i in MAP:
+            if MAP[i] == " ":
+                if random.randint(0, 25) == 1:
+                    MAP[i] = random.choice(["*", "@", "!", ".", "+", "%", "&"])
 
 # Main loop
 while True:
-    print("Small(1), Medium(2) or Large(3)")
+    print("Small(1), Medium(2), or Large(3)")
+    print("More(4)")
     cmd = input(">")
     Start(cmd)
     for i in range(l):
@@ -326,4 +375,4 @@ while True:
     Clear()
     AddStuff()
     PrintM()
-    print("-" * b)
+    print("")

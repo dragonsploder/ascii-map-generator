@@ -12,9 +12,9 @@ Medium will create a 37x118 map
 Large will create a 49x209 map
 
 
-The variables on lines 39-56 are:
+The variables are:
 
-	shapes: the average sizes of the islands used (shapes1 or shapes2)
+	shapes: the average sizes of the islands used (shapes0 - 5)
 
 	l: number of islands added to the map (these can overlap)
 
@@ -24,5 +24,7 @@ The variables on lines 39-56 are:
 
 	b: width
 
-Note if you make (a) smaller then 10 and (b) smaller then 30, you may create an infinite loop
+	p: place "stuff" (T or F)
+
+Note if you make (a) smaller then min-shapesY and (b) smaller then min-shapesX, you may create an infinite loop
 
