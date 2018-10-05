@@ -49,13 +49,11 @@ presets = {
     "7 - Blob" : {"Set": 7, "a": 36, "b": 100, "shapes": shapes5, "c": 20, "l": 3, "p": "F"},
 }
 
-stuff = ["*", "@", "!", ".", "+", "%", "&", "$", "#"]
-
-PIL = []
-
 # Function that creates the basic map, defines stuff like size, legend, positions on left/right side, ect
 def Start(s):
     global MAP
+    global stuff
+    global PIL
     global Legend 
     global shapes
     global presets
@@ -67,6 +65,8 @@ def Start(s):
     global LS 
     global RS
     global p
+    stuff = ["*", "@", "!", ".", "+", "%", "&", "$", "#"]
+    PIL = []
     MAP = {}
     if s == "1":
         shapes = shapes1
@@ -127,7 +127,7 @@ def Namer():
     return FP + SP
 
 def Hnamer():
-    FP = random.choice(["Mikker","","Wimmly","Jarmit", "FiFyFo", "Peeter", "Nipnoe", "Padfot", "??????"])
+    FP = random.choice(["Mikker","Wimmly","Jarmit", "FiFyFo", "Peeter", "Nipnoe", "Padfot", "??????"])
     SP = random.choice(["Bold  |","Stong |","Fast  |","Large |", "Small |", "Fat   |", "Stuped|", "Smart |", "Fine  |"])
     return FP + " the " + SP
 
@@ -350,6 +350,7 @@ def Clear():
 def AddStuff():
     global MAP
     global PIL
+    global stuff
     global p
     if p == "T":
         for i in MAP:
